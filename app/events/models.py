@@ -2,11 +2,14 @@ from django.db import models
 
 class Artist(models.Model):
 
-    class MuscGenre(models.TextChoices):
+    class MusicGenre(models.TextChoices):
         ROCK = "rock", "Rock"
         POP = "pop", "Pop"
     name = models.CharField(unique=True, max_length=255)
-    music_genre = models.CharField(unique=True, max_length=255)
+    music_genre = models.CharField(unique=True, max_length=255, choices=MusicGenre.choices)
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 

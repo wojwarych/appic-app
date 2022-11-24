@@ -3,4 +3,7 @@ from django.contrib import admin
 from .models import Artist
 
 # Register your models here.
-admin.site.register(Artist)
+
+@admin.register(Artist)
+class ArtistAdmin(admin.ModelAdmin):
+    list_display = ("name", "music_genre")
