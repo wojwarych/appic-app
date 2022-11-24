@@ -17,13 +17,16 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-from events.views import EventViewSet
+from events.views import EventViewSet, PerformanceViewSet
 
 router = routers.SimpleRouter()
 router.register(
     r'events',
     EventViewSet,
-    basename="Event",
+)
+router.register(
+    r'performances',
+    PerformanceViewSet,
 )
 
 urlpatterns = [

@@ -1,4 +1,16 @@
+from django.contrib.postgres.constraints import ExclusionConstraint
+from django.contrib.postgres.fields import (
+    DateTimeRangeField,
+    RangeBoundary,
+    RangeOperators,
+)
 from django.db import models
+from django.db.models import Func
+
+
+class TsTzRange(Func):
+    function = 'TSTZRANGE'
+    output_field = DateTimeRangeField()
 
 class Artist(models.Model):
 
@@ -12,7 +24,6 @@ class Artist(models.Model):
         return f"{self.name}"
 
 
-
 class Event(models.Model):
     name = models.CharField(unique=True, max_length=255)
     start = models.DateTimeField()
@@ -20,7 +31,18 @@ class Event(models.Model):
 
 
 class Performance(models.Model):
-    event = models.ForeignKey('Event', on_delete=models.CASCADE)
+    event = models.ForeignKey('Event', on_delete=models.CASCADE, related_name="performances")
     artist = models.ForeignKey('Artist', on_delete=models.CASCADE)
     start = models.DateTimeField()
     end = models.DateTimeField()
+
+    class Meta:
+        constraints = [
+            ExclusionConstraint(
+                name="exclude_overlapping_performances",
+                expressions=(
+                    (TsTzRange('start', 'end', RangeBoundary()), RangeOperators.OVERLAPS),
+                    ('event', RangeOperators.EQUAL),
+                ),
+            ),
+        ]
