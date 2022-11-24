@@ -12,6 +12,10 @@ class PerformanceSerializer(serializers.ModelSerializer):
         self.is_timestamp_within_range(validated_data)
         return super().create(validated_data)
 
+    def update(self, instance, validated_data):
+        self.is_timestamp_within_range(validated_data)
+        return super().update(instance, validated_data)
+
     def is_timestamp_within_range(self, validated_data):
         event = validated_data["event"]
         performance_start = validated_data["start"]
