@@ -3,6 +3,7 @@ from rest_framework import mixins, viewsets
 from rest_framework.exceptions import APIException
 from django.shortcuts import render
 from django.db.models import Prefetch
+from django.db.views import csrf_exempt
 
 from .models import Event, Performance
 from .serializers import EventSerializer, PerformanceSerializer
