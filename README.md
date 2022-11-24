@@ -13,3 +13,7 @@ After the successful startup enter container
 docker-compose exec web /bin/bash
 ```
 And here you can use django's `manage.py` command easily such as migrations and creating superuser for admin access
+
+### Task branch with Celery
+There's other branch called `feature/celery-background-task-csv` which was supposed to start work on last bullet point of the recruitment task.
+Due to lack of time it's unfinished.
